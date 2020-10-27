@@ -6,18 +6,19 @@
 int main()
 {
 	int x, a, b, c, a1, b1, c1, a2, b2, c2;
-	float p, res;
+	double p;
 	try {
 		std::cin >> x;
 		if (x == 1) {
 			std::cin >> a >> b >> c;
-			p = (a + b + c) / 2;
-			std::cout << "S = " << sqrt(p * (p - a) * (p - b) * (p - c));
+			double p = (a + b + c) / 2.0;
+			double res = sqrt(p * (p - a) * (p - b) * (p - c));
+			std::cout << "S = " << res;
 		}
 		else if (x == 2)
 		{
 			std::cin >> a1 >> a2 >> b1 >> b2 >> c1 >> c2;
-			res = abs((b1 - a1) * (c2 - a2) - (c1 - a1) * (b2 - a1)) / 2;
+			double res = abs((b1 - a1) * (c2 - a2) - (c1 - a1) * (b2 - a1)) / 2.0;
 			std::cout << "S = " << res;
 		}
 		else if  ((x >= 3) && (x <= 1000)) {
