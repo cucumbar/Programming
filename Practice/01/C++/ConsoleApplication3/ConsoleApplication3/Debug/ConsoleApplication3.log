@@ -1,0 +1,6 @@
+﻿  ConsoleApplication3.cpp
+c:\users\михондрус\source\repos\consoleapplication3\consoleapplication3\consoleapplication3.cpp(11): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+c:\users\михондрус\source\repos\consoleapplication3\consoleapplication3\consoleapplication3.cpp(9): warning C4101: c1: неиспользованная локальная переменная
+c:\users\михондрус\source\repos\consoleapplication3\consoleapplication3\consoleapplication3.cpp(9): warning C4101: a1: неиспользованная локальная переменная
+c:\users\михондрус\source\repos\consoleapplication3\consoleapplication3\consoleapplication3.cpp(9): warning C4101: b1: неиспользованная локальная переменная
+  ConsoleApplication3.vcxproj -> C:\Users\Михондрус\source\repos\ConsoleApplication3\Debug\ConsoleApplication3.exe
