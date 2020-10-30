@@ -7,3 +7,4 @@ if numb > 0:
 else:
     pows.pop()
 print(len(pows))
+#chto
