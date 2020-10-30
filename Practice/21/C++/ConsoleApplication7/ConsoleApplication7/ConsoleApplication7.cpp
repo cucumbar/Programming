@@ -2,19 +2,28 @@
 //
 
 #include <iostream>
-
+float bmi(weight: float, height: float){
+	return (weight / (pow (height / 100, 2)));
+}
+void print_bmi(bmi: float){
+    if (bmi < 18.5){
+        std::cout << "Underweight";
+	}
+    else if (18.5 <= bmi < 25.0){
+        std::cout << "Normal";
+	}
+    else if (25.0 <= bmi < 30.0){
+        std::cout << "Overweight";
+	}
+    else{
+        std::cout <<"Obesity";
+	}
+}
 int main()
 {
-	int num, pow;
-	double result{ 1 };
-	std::cin >> num >> pow;
-	for (int i = 0; i < abs(pow); i++) {
-		result *= num;
-	}
-	if (pow < 0) {
-		result = 1 / result;
-	}
-	std::cout << result;
+	float x1, x2;
+	std::cin >> x1 >> x2;
+	print_bmi(bmi(x1, x2));
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
