@@ -2,19 +2,40 @@
 //
 
 #include <iostream>
-
-int main()
-{
-	int num, pow;
-	double result{ 1 };
-	std::cin >> num >> pow;
-	for (int i = 0; i < abs(pow); i++) {
-		result *= num;
-	}
-	if (pow < 0) {
-		result = 1 / result;
-	}
-	std::cout << result;
+#include <string>
+#include <ctime>
+int main() {
+	srand(time(0));
+	int y, x;
+	std::string s;
+	bool flag{false};
+    std::cout << "Здравствуйте. Угадайте число от 1 до 100\n";
+    x = rand() % (101);
+    for (int i = 1; i < 5; i++){
+        std::cin >> y;
+        if (i <= 4){
+            if (y < x){
+                std::cout << "Загаданное число больше\n";
+            }
+            else if (y > x){
+                std::cout << "Загаданное число меньше\n";
+            }
+            else{
+                std::cout << "Поздравляю! Вы угадали\n";
+                flag = true;
+                break;
+            }
+        }
+    }
+    if (flag == false){
+        std::cout << "Вы проиграли. Было загадано: \n" << x;
+    }
+    std::cout << "\nХотите начать сначала? (1 - ДА )\n";
+    std::cin >> x;
+    if (x == 1){
+        main();
+    }
+	return 0;
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"

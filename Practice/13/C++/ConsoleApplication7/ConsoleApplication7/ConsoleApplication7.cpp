@@ -3,19 +3,27 @@
 
 #include <iostream>
 
-int main()
-{
-	int num, pow;
-	double result{ 1 };
-	std::cin >> num >> pow;
-	for (int i = 0; i < abs(pow); i++) {
-		result *= num;
+int main() {
+	int a;
+	std::cin >> a;
+	int x = (a / 2 + 2);
+	for (int i = 2; i < x; i++) {
+		if (a == 2 || a == 3) {
+			std::cout << "Prostoye";
+			break;
+		}
+		else if (a % i == 0) {
+			std::cout << "Sostavnoye";
+			break;
+		}
+		else if (i == a / 2) {
+			std::cout << "Prostoye";
+			break;
+		}
 	}
-	if (pow < 0) {
-		result = 1 / result;
-	}
-	std::cout << result;
 }
+
+
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"

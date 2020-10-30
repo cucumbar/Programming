@@ -3,18 +3,21 @@
 
 #include <iostream>
 
-int main()
-{
-	int num, pow;
-	double result{ 1 };
-	std::cin >> num >> pow;
-	for (int i = 0; i < abs(pow); i++) {
-		result *= num;
+int main() {
+	int numb, two, len{ 1 };
+	std::cin >> numb;
+	two = 1;
+	if (numb > 0){
+		while (two * 2 <= numb){
+		    two *= 2;
+		    len += 1;
+		}
 	}
-	if (pow < 0) {
-		result = 1 / result;
+	else {
+		len -= 1;
 	}
-	std::cout << result;
+	std::cout << len;
+	return 0;
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
