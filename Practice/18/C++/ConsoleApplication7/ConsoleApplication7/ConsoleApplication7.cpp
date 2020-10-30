@@ -7,14 +7,17 @@ int main()
 {
 	int num, pow;
 	double result{ 1 };
-	std::cin >> num >> pow;
-	for (int i = 0; i < abs(pow); i++) {
-		result *= num;
-	}
-	if (pow < 0) {
-		result = 1 / result;
-	}
-	std::cout << result;
+	res = 1
+	Siegesmund_words = [i for i in 'halloklempnerdasistfantastischfluggegecheimen']
+	Siegesmund_letters = set(Siegesmund_words)
+	Siegesmund_wordcount = {i : Siegesmund_words.count(i) / len(Siegesmund_words) for i in Siegesmund_letters}
+	print(Siegesmund_wordcount)
+	try:
+   	for i in input():
+        	res *= Siegesmund_wordcount[i]
+	except KeyError:
+    	res = 0
+	print(res)
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"

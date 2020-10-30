@@ -4,17 +4,17 @@
 #include <iostream>
 
 int main()
-{
-	int num, pow;
-	double result{ 1 };
-	std::cin >> num >> pow;
-	for (int i = 0; i < abs(pow); i++) {
-		result *= num;
-	}
-	if (pow < 0) {
-		result = 1 / result;
-	}
-	std::cout << result;
+{ //найти регекс в плюсах
+	import re 
+pattern = r"a[0-9]{2}[a-z]55661"
+pattern1 = r"a[a-z][0-9]{2}55661"
+pattern2 = r"a[0-9][a-z][0-9]55661"
+Siegesmund_tickets = input()
+s = input()
+answer = re.findall(pattern, s)
+answer.extend(re.findall(pattern1, s))
+answer.extend(re.findall(pattern2, s))
+print(' '.join(answer) if answer != [] else -1)
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
