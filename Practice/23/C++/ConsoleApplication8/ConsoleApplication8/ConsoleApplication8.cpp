@@ -2,10 +2,30 @@
 //
 
 #include <iostream>
-
-int main()
-{
-    std::cout << "Hello World!\n";
+#include <C:\Users\Михондрус\source\repos\ConsoleApplication8\fact.h>
+#ifndef com
+#include "C:\Users\Михондрус\source\repos\ConsoleApplication8\Sochitaniya.h"
+#endif
+#ifndef tayl
+#include "C:\Users\Михондрус\source\repos\ConsoleApplication8\taylor.h"
+#endif
+int main(){
+	const double M_PI{ 3.1415926535 };
+	std::cout << 'x' << '\t' << "x!" << '\n';
+	for (int i{ 1 }; i < 11; i++) {
+		std::cout << i << '\t' << fact(i) << '\n';
+	}
+	std::cout << '\n' << 'x' << '\t' << "sin(x)" << '\n';
+	int y = 0;
+	double x{ M_PI / 180.0 };
+	for (double i{ 0 }; y <= 45; i += x) {
+		std::cout << i << '\t' << tayl(5, i) << '\n';
+		y += 1;
+	}
+	std::cout << '\n' << 'k' << '\t' << "C(k, 10)" << '\n';
+	for (int i{ 1 }; i < 11; i++) {
+		std::cout << i << '\t' << com(10, i) << '\n';
+	}
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
