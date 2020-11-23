@@ -8,21 +8,38 @@ using namespace httplib;
 
 // В этой функции формируем ответ сервера на запрос
 void gen_response(const Request& req, Response& res) {
-	std::string path = "C:\\Users\\Михондрус\\myGitRepoCloned\\Programming\\Lab\\01\\server(C++)\\ConsoleApplication1\\ConsoleApplication1\\WidgetPage.html"; //УЗНАТЬ КАК ПОЛЬЗОВАТЬСЯ ОТНОСИТЕЛЬНЫМ ПУТЕМ
-	std::ifstream fin;
-	fin.open(path);
+	std::string path1 = "..\\ConsoleApplication1\\WidgetPage.html"; //server(C++)\\ConsoleApplication1\\ConsoleApplication1\\.
+	std::string path2 = "WidgetPage.html";
+	std::ifstream fin1, fin2;
+	fin1.open(path1);
+	fin2.open(path2);
 	char ch;
-	std::string htmlres = "";
-	if (!(fin.is_open())) {
-		std::cout << "нет";
+	std::string htmlres1 = "";
+	if (!(fin1.is_open())) {
+		std::cout << "no connection";
 	}
 	else {
-		while (fin.get(ch)) {
-			htmlres += ch;
+		while (fin1.get(ch)) {
+			htmlres1 += ch;
 		}
 	}
-	res.set_content(htmlres, "text/html");
-	fin.close();
+	std::string htmlres2 = "";
+	if (!(fin2.is_open())) {
+		std::cout << "no connection";
+	}
+	else {
+		while (fin2.get(ch)) {
+			htmlres1 += ch;
+		}
+	}	
+	if (htmlres1 != "") {
+		res.set_content(htmlres1, "text/html");
+	}
+	else {
+		res.set_content(htmlres2, "text/html");
+	}
+	fin1.close();
+	fin2.close();
 }
 
 int main() {

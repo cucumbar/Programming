@@ -22,6 +22,9 @@ frame1.pack(fill=tk.BOTH, side=tk.TOP)
 frame3 = tk.Frame(master=window, width=50, height=50, bg="gold")
 frame3.pack(fill=tk.BOTH, side=tk.BOTTOM)
 
+# with open("PublicData.json", "r") as f:
+#     jsonData = f.readline()
+
 label = tk.Label(
     text=f"{rData.split()[0]}\n" + f"{rData.split()[1]}°C",
     fg="black",
@@ -33,9 +36,8 @@ label = tk.Label(
 label.pack(fill=tk.BOTH, side=tk.TOP)
 
 os.startfile(r"widgetparser.py")
-
 if __name__ == '__main__':
-    Thread(target=os.startfile(r"..\server(C++)\ConsoleApplication1\Debug\ConsoleApplication1.exe")).start()
+    Thread(target=os.startfile(r"ConsoleApplication1.exe", )).start()
     Thread(target=window.mainloop()).start()
 
 

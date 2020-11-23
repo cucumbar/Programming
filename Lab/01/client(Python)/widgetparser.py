@@ -32,5 +32,5 @@ widg = sub(r"%", repldat.split()[1], widg, count=1)
 with open("WidgetPage.html", "w") as f:
     print(widg, file=f)
 
-with open(r"..\server(C++)\ConsoleApplication1\ConsoleApplication1\WidgetPage.html", "w") as f:
+with open(r"..\server(C++)\ConsoleApplication1\ConsoleApplication1\WidgetPage.html", "w") as f: #C:\\Users\\Михондрус\\myGitRepoCloned\\Programming\\Lab\\01\\server(C++)\\ConsoleApplication1\\ConsoleApplication1\\
     print(widg, file=f)
