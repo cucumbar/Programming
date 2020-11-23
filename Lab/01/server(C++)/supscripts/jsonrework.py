@@ -20,7 +20,7 @@ temperature = JSONData["list"][0]["main"]["temp"] - 273.15
 
 if __name__ != "__main__":
     with open(r"..\server(C++)\supscripts\PDataCash.txt", "w") as f:
-        print(weather, round(temperature), sep='\n', file=f)
+        print(weather, round(temperature), file=f)
 else:
     with open(r"PDataCash.txt", "w") as f:
-        print(weather, round(temperature), sep='\n', file=f)
+        print(weather, round(temperature), file=f)
