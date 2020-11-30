@@ -1,12 +1,30 @@
 import tkinter as tk
-import os
-from threading import Thread
+import requests
+# import time
+import json
+# from threading import Thread
+# from os import startfile
 
-os.startfile(r"..\server(C++)\supscripts\jsonrework.py")
+# now = time.time()
 
-datapath = r"PDataCash.txt"
-with open(datapath, "r") as f:
-    rData = f.readline()
+def get_res():
+    res = requests.get(r"http://localhost:3000")
+    res = res.text.split('\n')
+    cashfile = json.loads(res[43])
+    return cashfile
+
+# def timecheck():
+#     while True:
+#         if time.time() >= now + 10:
+#             startfile(r"MainClient.pyw")
+#             exit(0)
+#         else:
+#             time.sleep(1)
+#             return
+
+JSONData = get_res()
+weather = JSONData["list"][0]["weather"][0]["main"]
+temperature = round(JSONData["list"][0]["main"]["temp"] - 273.15)
 
 window = tk.Tk()
 window.geometry('150x230')
@@ -26,7 +44,7 @@ frame3.pack(fill=tk.BOTH, side=tk.BOTTOM)
 #     jsonData = f.readline()
 
 label = tk.Label(
-    text=f"{rData.split()[0]}\n" + f"{rData.split()[1]}°C",
+    text=f"{weather}\n" + f"{temperature}°C",
     fg="black",
     bg="white",
     font="Arial 28",
@@ -35,12 +53,11 @@ label = tk.Label(
 )
 label.pack(fill=tk.BOTH, side=tk.TOP)
 
-os.startfile(r"widgetparser.py")
-if __name__ == '__main__':
-    Thread(target=os.startfile(r"ConsoleApplication1.exe", )).start()
-    Thread(target=window.mainloop()).start()
-
-
+# if __name__ == '__main__':
+window.mainloop()
+    # Thread(target=timecheck()).start()
+    
+    
 
 
 

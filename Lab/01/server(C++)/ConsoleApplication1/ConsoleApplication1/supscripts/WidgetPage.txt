@@ -22,12 +22,12 @@ body {
 			<div class="widget-right__layout widget-right__layout--brown">
 				<div class="widget-right-card">
 					<div class="widget-right__title">Симферополь</div>
-					<div class="widget-right__description">Clouds</div>
-                    </div><img src="https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/03d.png" width="64" height="64" class="weather-right__icon weather-right__icon--type5 weather-right__icon--brown">
+					<div class="widget-right__description">%</div>
+                    </div><img src="https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/0%.png" width="64" height="64" class="weather-right__icon weather-right__icon--type5 weather-right__icon--brown">
                     <table class="weather-right-card">
                       <tbody><tr class="weather-right-card__items">
-                        <td class="weather-right-card__item weather-right-card__temperature-min">8<span>°C</span></td>
-                        <td class="weather-right-card__item weather-right-card__temperature-max">8<span>°C</span></td>
+                        <td class="weather-right-card__item weather-right-card__temperature-min">%<span>°C</span></td>
+                        <td class="weather-right-card__item weather-right-card__temperature-max">%<span>°C</span></td>
                       </tr>
                     </tbody></table>
                   </div>
@@ -41,11 +41,10 @@ body {
                   </div>
                 </div></div></div>
 <!-- 
-{"message": "like", "cod": "200", "count": 1, "list": [{"id": 693805, "name": "Simferopol", "coord": {"lat": 44.9572, "lon": 34.1108}, "main": {"temp": 281.09, "feels_like": 277.68, "temp_min": 281.09, "temp_max": 281.09, "pressure": 1018, "humidity": 60, "sea_level": 1018, "grnd_level": 989}, "dt": 1606748957, "wind": {"speed": 2.17, "deg": 81}, "sys": {"country": "UA"}, "rain": null, "snow": null, "clouds": {"all": 97}, "weather": [{"id": 804, "main": "Clouds", "description": "overcast clouds", "icon": "04n"}]}]} 
+% 
 -->
 </body>
 </html>
-
 
 
 

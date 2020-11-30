@@ -60,22 +60,43 @@
 #include "include/cpp_httplib/httplib.h"
 #include <string>
 using namespace httplib;
+//using namespace fstream;
+//using namespace string;
+
+// В этой функции формируем ответ сервера на запрос
 void gen_response(const Request& req, Response& res) {
-	std::string path = "C:\\Users\\Михондрус\\myGitRepoCloned\\Programming\\Lab\\01\\server(C++)\\ConsoleApplication1\\ConsoleApplication1\\WidgetPage.html";
-	std::ifstream fin;
-	fin.open(path);
+	std::string path1 = "..\\ConsoleApplication1\\WidgetPage.html"; //server(C++)\\ConsoleApplication1\\ConsoleApplication1\\.
+	std::string path2 = "WidgetPage.html";
+	std::ifstream fin1, fin2;
+	fin1.open(path1);
+	fin2.open(path2);
 	char ch;
-	std::string htmlres = "";
-	if (!(fin.is_open())) {
-		std::cout << "not started";
+	std::string htmlres1 = "";
+	if (!(fin1.is_open())) {
+		std::cout << "no connection";
 	}
 	else {
-		while (fin.get(ch)) {
-			htmlres += ch;
+		while (fin1.get(ch)) {
+			htmlres1 += ch;
 		}
 	}
-	res.set_content(htmlres, "text/html");
-	fin.close();
+	std::string htmlres2 = "";
+	if (!(fin2.is_open())) {
+		std::cout << "no connection";
+	}
+	else {
+		while (fin2.get(ch)) {
+			htmlres1 += ch;
+		}
+	}	
+	if (htmlres1 != "") {
+		res.set_content(htmlres1, "text/html");
+	}
+	else {
+		res.set_content(htmlres2, "text/html");
+	}
+	fin1.close();
+	fin2.close();
 }
 
 int main() {
@@ -90,12 +111,13 @@ int main() {
 # -*- coding: utf-8 -*-
 import json as js
 import requests as req
+from os import startfile
 
 inp = req.get("http://api.openweathermap.org/data/2.5/find?q=Simferopol,UA&type=like&APPID=a50134af28c2718b67c6f87a3f126eef")
 JSONData = inp.json()
 
 if __name__ != "__main__":
-    with open(r"..\server(C++)\supscripts\PublicData.json", "w") as f:
+    with open(r"..\server(C++)\ConsoleApplication1\ConsoleApplication1\supscripts\PublicData.json", "w") as f:
         js.dump(JSONData, f)
 else:
     with open(r"PublicData.json", "w") as f:
@@ -108,59 +130,16 @@ weather = JSONData["list"][0]["weather"][0]["main"]
 temperature = JSONData["list"][0]["main"]["temp"] - 273.15
 
 if __name__ != "__main__":
-    with open(r"..\server(C++)\supscripts\PDataCash.txt", "w") as f:
+    with open(r"..\server(C++)\ConsoleApplication1\ConsoleApplication1\supscripts\PDataCash.txt", "w") as f:
         print(weather, round(temperature), file=f)
 else:
     with open(r"PDataCash.txt", "w") as f:
         print(weather, round(temperature), file=f)
-```
-5. Полный код Клиента:
-```py
-#MainClient.py
-# -*- coding: utf-8 -*-
-
-import tkinter as tk
-import os
-from threading import Thread
-
-os.startfile(r"..\server(C++)\supscripts\jsonrework.py")
-
-datapath = r"PDataCash.txt"
-with open(datapath, "r") as f:
-    rData = f.readline()
-
-window = tk.Tk()
-window.geometry('150x230')
-window.resizable(width=False, height=False)
-
-x = (window.winfo_screenwidth() - window.winfo_reqwidth()) / 2
-y = (window.winfo_screenheight() - window.winfo_reqheight()) / 2
-window.wm_geometry("+%d+%d" % (x, y))
-
-frame1 = tk.Frame(master=window, width=50, height=50, bg="gold")
-frame1.pack(fill=tk.BOTH, side=tk.TOP)
- 
-frame3 = tk.Frame(master=window, width=50, height=50, bg="gold")
-frame3.pack(fill=tk.BOTH, side=tk.BOTTOM)
-
-label = tk.Label(
-    text=f"{rData.split()[0]}\n" + f"{rData.split()[1]}°C",
-    fg="black",
-    bg="white",
-    font="Arial 28",
-    width=5,
-    height=3
-)
-label.pack(fill=tk.BOTH, side=tk.TOP)
-
-os.startfile(r"widgetparser.py")
-
-if __name__ == '__main__':
-    Thread(target=os.startfile(r"..\server(C++)\ConsoleApplication1\EXECUTABLE\ConsoleApplication1.exe")).start()
-    Thread(target=window.mainloop()).start()
+        
+startfile("widgetparser.py")
 ```
 ```py
-#widgetparser
+#widgetparser.py
 # -*- coding: utf-8 -*-
 from re import sub
 from time import localtime
@@ -192,11 +171,78 @@ else:
 widg = sub(r"%", repldat.split()[1], widg, count=1)
 widg = sub(r"%", repldat.split()[1], widg, count=1)
 
+with open("PublicData.json", "r") as f:
+    dat = f.readlines()
+    dat = "".join(dat)
+    widg = sub(r"%", dat, widg, count=1)
+
 with open("WidgetPage.html", "w") as f:
     print(widg, file=f)
 
-with open(r"..\server(C++)\ConsoleApplication1\ConsoleApplication1\WidgetPage.html", "w") as f:
+with open(r"..\WidgetPage.html", "w") as f: #..\server(C++)\ConsoleApplication1\ConsoleApplication1\ ||||C:\\Users\\Михондрус\\myGitRepoCloned\\Programming\\Lab\\01\\server(C++)\\ConsoleApplication1\\ConsoleApplication1\\
     print(widg, file=f)
+```
+5. Полный код Клиента:
+```py
+#MainClient.py
+import tkinter as tk
+import requests
+# import time
+import json
+# from threading import Thread
+# from os import startfile
+
+# now = time.time()
+
+def get_res():
+    res = requests.get(r"http://localhost:3000")
+    res = res.text.split('\n')
+    cashfile = json.loads(res[43])
+    return cashfile
+
+# def timecheck():
+#     while True:
+#         if time.time() >= now + 10:
+#             startfile(r"MainClient.pyw")
+#             exit(0)
+#         else:
+#             time.sleep(1)
+#             return
+
+JSONData = get_res()
+weather = JSONData["list"][0]["weather"][0]["main"]
+temperature = round(JSONData["list"][0]["main"]["temp"] - 273.15)
+
+window = tk.Tk()
+window.geometry('150x230')
+window.resizable(width=False, height=False)
+
+x = (window.winfo_screenwidth() - window.winfo_reqwidth()) / 2
+y = (window.winfo_screenheight() - window.winfo_reqheight()) / 2
+window.wm_geometry("+%d+%d" % (x, y))
+
+frame1 = tk.Frame(master=window, width=50, height=50, bg="gold")
+frame1.pack(fill=tk.BOTH, side=tk.TOP)
+ 
+frame3 = tk.Frame(master=window, width=50, height=50, bg="gold")
+frame3.pack(fill=tk.BOTH, side=tk.BOTTOM)
+
+# with open("PublicData.json", "r") as f:
+#     jsonData = f.readline()
+
+label = tk.Label(
+    text=f"{weather}\n" + f"{temperature}°C",
+    fg="black",
+    bg="white",
+    font="Arial 28",
+    width=5,
+    height=3
+)
+label.pack(fill=tk.BOTH, side=tk.TOP)
+
+# if __name__ == '__main__':
+window.mainloop()
+    # Thread(target=timecheck()).start()
 ```
 6. Скриншот клиентского приложения:
 
@@ -215,6 +261,6 @@ with open(r"..\server(C++)\ConsoleApplication1\ConsoleApplication1\WidgetPage.ht
 Каталоги:
 [[Сервер]](./server(C++)) [[Клиент]](./client(Python))
 ## Вывод
-Были выполнены поставленные задачи, а также формально достигнута цель данной работы - была разработка клиент-серверного приложения позволяющего узнать погоду в Симферополе на текущий момент времени, однако программа все еще требует некоторой доработки.
+Были выполнены поставленные задачи, а также формально достигнута цель данной работы - была произведена разработка клиент-серверного приложения позволяющего узнать погоду в Симферополе на текущий момент времени, однако программа все еще требует некоторой доработки.
 
-Разработка сервера была выполнена с использованием сторонних библиотек: cpp-httplib для работы с http запросами, json для работы с JSON файлами, re для работы с заменой шаблонных строк, time для работы со временем. Клиент использует такие библиотеки как: requests для отправки запросов, os для работы с файловой системой, tkinter для создания GUI, threading для одновременного исполнения функций.
+Разработка сервера была выполнена с использованием сторонних библиотек: cpp-httplib для работы с http запросами, json для работы с JSON файлами, re для работы с заменой шаблонных строк, time для работы со временем. Клиент использует такие библиотеки как: requests для отправки запросов, os для работы с файловой системой, tkinter для создания GUI, json для работы с JSON файлами, requests для отправки запросов на сервер.
