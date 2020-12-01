@@ -8,7 +8,7 @@
 <br><br>
 <p>студента 1 курса группы ПИ-б-о-201(1)<br>
 Кривошапко Михаила Игоревича<br>
-направления подготовки 09.03.01 "Программная инженерия"</p>
+направления подготовки 09.03.04 "Программная инженерия"</p>
 <br><br>
 <table>
 <tr><td>Научный руководитель<br> старший преподаватель кафедры<br> компьютерной инженерии и моделирования</td>
@@ -53,8 +53,8 @@
 2. Был составлен следующий запрос: http://api.openweathermap.org/data/2.5/find?q=Simferopol,UA&type=like&APPID=a50134af28c2718b67c6f87a3f126eef
 3. Для пункта 2 был использован метод localetime(), контактирующий с API сервисов всемирного времени, из библиотеки time языка Python
 4. Полный исходный код сервера:
-```с++
-//
+```c++
+//ConsoleApplication1
 #include <iostream>
 #include <fstream>
 #include "include/cpp_httplib/httplib.h"
@@ -65,6 +65,7 @@ using namespace httplib;
 
 // В этой функции формируем ответ сервера на запрос
 void gen_response(const Request& req, Response& res) {
+	system("..\\ConsoleApplication1\\supscripts\\jsonrework.py");
 	std::string path1 = "..\\ConsoleApplication1\\WidgetPage.html"; //server(C++)\\ConsoleApplication1\\ConsoleApplication1\\.
 	std::string path2 = "WidgetPage.html";
 	std::ifstream fin1, fin2;
@@ -103,7 +104,7 @@ int main() {
 	Server svr;                    // Создаём сервер (пока что не запущен)
 	svr.Get("/", gen_response);    // Вызвать функцию gen_response если кто-то обратится к корню "сайта"
 	std::cout << "Start server... OK\n";
-	svr.listen("localhost", 3000); // Запускаем сервер на localhost и порту 1234
+	svr.listen("localhost", 3000); // Запускаем сервер на localhost и порту 3000
 }
 ```
 ```py
@@ -247,16 +248,12 @@ window.mainloop()
 6. Скриншот клиентского приложения:
 
 ![](./labakartinki/1.jpg)
+Рисунок 1. Графический интерфейс программы-клиента.
 
 7. Скриншот браузерного виджета:
 
 ![](./labakartinki/2.jpg)
-
-![](./labakartinki/3.jpg)
-
-8. Скриншот работы ngrok при включенном сервером:
-
-![](./labakartinki/4.jpg)
+Рисунок 2. HTML-виджет на local-hostе.
 
 Каталоги:
 [[Сервер]](./server(C++)) [[Клиент]](./client(Python))
