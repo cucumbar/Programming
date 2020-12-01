@@ -8,6 +8,7 @@ using namespace httplib;
 
 // В этой функции формируем ответ сервера на запрос
 void gen_response(const Request& req, Response& res) {
+	system("..\\ConsoleApplication1\\supscripts\\jsonrework.py");
 	std::string path1 = "..\\ConsoleApplication1\\WidgetPage.html"; //server(C++)\\ConsoleApplication1\\ConsoleApplication1\\.
 	std::string path2 = "WidgetPage.html";
 	std::ifstream fin1, fin2;
