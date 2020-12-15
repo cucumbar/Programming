@@ -36,11 +36,11 @@ int main() {
 // В этой функции формируем ответ сервера на запрос
 
 void gen_get1response(const Request& req, Response& res){
-	system(u8"..\\ConsoleApplication11\\ConsoleApplication11\\whpedito.py");
+	system(u8"..\\ConsoleApplication11\\whpedito.py");
 	std::cout << "0\n";
-	std::string path1 = u8"..\\ConsoleApplication11\\ConsoleApplication11\\webhooksfinal.html";
-	std::string path2 = u8"webhooksfinal.html"; // ..\\ConsoleApplication11\\ConsoleApplication11
-	std::string pathjsonwork = u8"..\\ConsoleApplication11\\ConsoleApplication11\\config.txt"; //data:text/html,<form action=http://localhost:1234 method=post><input name=key></form>
+	std::string path1 = u8"..\\ConsoleApplication11\\webhooksfinal.html";
+	std::string path2 = u8"webhooksfinal.hml"; // ..\\ConsoleApplication11\\ConsoleApplication11
+	std::string pathjsonwork = u8"..\\ConsoleApplication11\\config.txt"; //data:text/html,<form action=http://localhost:1234 method=post><input name=key></form>
 	std::ifstream fin1;
 	std::cout << "1\n";
 	std::ifstream fin2;
@@ -51,40 +51,38 @@ void gen_get1response(const Request& req, Response& res){
 	fin2.open(path2);
 	char ch;
 	std::string htmlres1 = "";
-	if (req.method == "POST" && fout1) {
+	if (fout1) {
 			std::string x;
 			x = req.body.c_str();
 			fout1 << x;
-			system(u8"..\\ConsoleApplication11\\ConsoleApplication11\\whpedito.py");
+			system(u8"..\\ConsoleApplication11\\whpedito.py");
+	}
+	if (!(fin1.is_open())) {
+		std::cout << "no connection\n";
 	}
 	else {
-		if (!(fin1.is_open())) {
-			std::cout << "no connection\n";
-		}
-		else {
-			while (fin1.get(ch)) {
-				htmlres1 += ch;
-			}
-		}
-		std::string htmlres2 = "";
-		if (!(fin2.is_open())) {
-			std::cout << "no connection\n";
-		}
-		else {
-			while (fin2.get(ch)) {
-				htmlres1 += ch;
-			}
-		}
-		if (htmlres1 != "") {
-			res.set_content(htmlres1, "text/html");
-		}
-		else {
-			res.set_content(htmlres2, "text/html");
+		while (fin1.get(ch)) {
+			htmlres1 += ch;
 		}
 	}
-	fin1.close();
-	fin2.close();
-	fout1.close();
+	std::string htmlres2 = "";
+	if (!(fin2.is_open())) {
+		std::cout << "no connection\n";
+	}
+	else {
+		while (fin2.get(ch)) {
+			htmlres1 += ch;
+		}
+	}
+	if (htmlres1 != "") {
+		res.set_content(htmlres1, "text/html");
+	}
+	else {
+		res.set_content(htmlres2, "text/html");
+	}
+fin1.close();
+fin2.close();
+fout1.close();
 }
 
 void gen_get2response(const Request& req, Response& res) {
@@ -98,8 +96,9 @@ void gen_get2response(const Request& req, Response& res) {
 
 int main() {
 	Server svr;                            // Создаём сервер
-	svr.Get("/webhooks", gen_get2response);
-	svr.Post("/", gen_get1response);// Вызвать функцию gen_response на post запрос
+	svr.Get("/webhooks", gen_get1response);
+	svr.Get("/webhooks#", gen_get1response);
+	svr.Post("/", gen_get2response);// Вызвать функцию gen_response на post запрос
 	std::cout << "Start server... OK\n"; // cout использовать нельзя
 	svr.listen("localhost", 1234);         // Запускаем сервер на localhost и порту 1234
 }
