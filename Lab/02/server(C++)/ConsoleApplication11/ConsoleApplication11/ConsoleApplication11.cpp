@@ -51,7 +51,7 @@ void gen_get1response(const Request& req, Response& res){
 	fin2.open(path2);
 	char ch;
 	std::string htmlres1 = "";
-	if (fout1) {
+	if (req.method == "POST" && fout1) {
 			std::string x;
 			x = req.body.c_str();
 			fout1 << x;
@@ -97,7 +97,7 @@ void gen_get2response(const Request& req, Response& res) {
 int main() {
 	Server svr;                            // Создаём сервер
 	svr.Get("/webhooks", gen_get1response);
-	svr.Get("/webhooks#", gen_get1response);
+	svr.Post("/webhooks", gen_get1response);
 	svr.Post("/", gen_get2response);// Вызвать функцию gen_response на post запрос
 	std::cout << "Start server... OK\n"; // cout использовать нельзя
 	svr.listen("localhost", 1234);         // Запускаем сервер на localhost и порту 1234

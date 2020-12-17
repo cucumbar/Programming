@@ -1,8 +1,9 @@
 from json import load, dump, decoder
+import sys
 
 
 try:
-    with open("config.json", "r") as f:
+    with open("config.json", "r", encoding="utf-8") as f:
         for i in f.readlines():
             if i != '':
                 flag = True
@@ -17,24 +18,25 @@ except FileNotFoundError or decoder.JSONDecodeError:
     
     
 if flag:
-    with open("config.json", "w") as f, open("config.txt", "r") as ff:
-        shit_container = ff.readlines()
-        shit_dictionary = {"webhooks": shit_container for j in range(1)}
-        dump(shit_dictionary, f)    
+    with open("config.json", "w", encoding="utf-8") as f, open("config.txt", "r", encoding="utf-8") as ff:
+        container = ff.readlines()
+        Ndictionary = {"webhooks": container for j in range(1)}
+        dump(Ndictionary, f)
 else:
-    with open("config.json", "r") as fin:
-        shit_old = load(fin)
+    sys.exit()
+    with open("config.json", "r", encoding="utf-8") as fin:
+        old = load(fin)
         
-    with open("config.json", "w") as f, open("config.txt", "r") as ff:
-        shit_container = ff.readlines()
-        if set(shit_container) not in set(shit_old["webhooks"]):
-            for i in shit_container:
-                if i not in shit_old["webhooks"]:
-                    shit_old["webhooks"].append(i)
-        dump(shit_old, f)
+    with open("config.json", "w", encoding="utf-8") as f, open("config.txt", "r", encoding="utf-8") as ff:
+        container = ff.readlines()
+        if set(container) not in set(old["webhooks"]):
+            for i in container:
+                if i not in old["webhooks"]:
+                    old["webhooks"].append(i)
+        dump(old, f)
 
 
-with open("config.json", "r") as f:
+with open("config.json", "r", encoding="utf-8") as f:
     whs = load(f)
  
     
