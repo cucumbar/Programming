@@ -89,7 +89,17 @@ void gen_get2response(const Request& req, Response& res) {
 	// Выводим на экран тело запроса
 	std::cout << req.body.c_str();
 	// Здесь будет ответ, пока-что взят пример из документации
-	std::string str = u8"KU KU";
+	std::string str = u8R"({
+		"response": {
+		"text": "Здравствуйте! Это мы, хороводоведы.",
+			"tts" : "Здравствуйте! Это мы, хоров+одо в+еды.",
+			"end_session" : false
+		},
+		"session_state" : {
+			"value": 10
+			},
+			"version" : "1.0"
+	})";
 	// Отправляем ответ
 	res.set_content(str, "text/json; charset=UTF-8");
 }

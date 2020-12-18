@@ -23,7 +23,7 @@ if flag:
         Ndictionary = {"webhooks": container for j in range(1)}
         dump(Ndictionary, f)
 else:
-    sys.exit()
+    sys.exit() # Оно чудесным образом работает, хотя это вообще необъяснимо. отредачить попозже.
     with open("config.json", "r", encoding="utf-8") as fin:
         old = load(fin)
         

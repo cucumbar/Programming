@@ -22,12 +22,14 @@
 
 ## Постановка задачи
 
-Разработать сервис предоставляющий данные о погоде в городе Симферополе на момент запроса.  В качестве источника данных о погоде используйте: http://openweathermap.org/. В состав сервиса входит: серверное приложение на языке С++ и клиентское приложение на языке Python.
-
-Серверное приложение (далее Сервер) предназначенное для обслуживания клиентских приложений и минимизации количества запросов к сервису openweathermap.org. Сервер должен обеспечивать возможность получения данных в формате JSON и виде html виджета (для вставки виджета на страницу будет использоваться iframe).
-
-Клиентское приложение должно иметь графический интерфейс отображающий сведения о погоде и возможность обновления данных по требованию пользователя.
-
+Разработайте и зарегистрируйте навык для Алисы на сервисе Яндекс.Диалоги;
+В качестве backend-a для навыка реализуйте приложение на языке С++ выполняющее следующие функции:
+Составление продуктовой корзины: Добавление продукта в корзину; Удаление продукта из корзины; Очистка корзины; Вывод списка товаров в корзине; Подсчёт стоимости товаров в корзине.
+Вывод справочной информации по навыку;
+Регистрацию webhook-ов сторонних сервисов;
+Отправку данных на сторонние сервисы. 
+В качестве стороннего сервиса реализуйте приложение на языке Python выполняющее следующие функции:
+Ожидание данных о покупке; Сохранение поступивших данных в excel-документ. Подробности указаны далее.
 ## Цель работы
 Цель: Получить представления о структуре post-запроса, изучить webhooks как метод взаимодействия web-приложений;
 Каталоги:
@@ -36,33 +38,42 @@
 
 Первым шагом было изучение Webhook'ов. Была прочитаны и созданы требуемые запросы.
 
-Следующим шагом был разработан c++ сервер с вставками python.
+Следующим шагом был разработан c++ сервер со вставками python.
 
 Файл [ConsoleApplication1.cpp](./server(C++)/ConsoleApplication1/ConsoleApplication1/ConsoleApplication1.cpp) содержит функцию входа *main*.
 
 Проект имеет несколько существенных изъянов, однако их планируется исправить в ближайшие сроки.
 
 ### Информация о проекте
-
-Для разработки сервера былb использованы: IDE Visual Studio 2017 15.9.27 (С++), IDE Spyder реализации Anaconda для Windows(Python 3.8.3)
-Для разработки клиента была использована IDE Spyder реализации Anaconda для Windows(Python 3.8.3)
+Стандарт С++: С++20
+Для разработки сервера были использованы: IDE Visual Studio 2017 15.9.27 (С++), IDE Spyder реализации Anaconda для Windows(Python 3.8.3)
+Для разработкистороннего сервиса была использована IDE Spyder реализации Anaconda для Windows(Python 3.8.3)
 ### Обязательная информация
 
-1. На сайте openweathermap.org был получен следующий ключ api: **a50134af28c2718b67c6f87a3f126eef**
-2. Был составлен следующий запрос: http://api.openweathermap.org/data/2.5/find?q=Simferopol,UA&type=like&APPID=a50134af28c2718b67c6f87a3f126eef
-3. Для пункта 2 был использован метод localetime(), контактирующий с API сервисов всемирного времени, из библиотеки time языка Python
-4. Полный исходный код сервера:
-```c++
-//ConsoleApplication1
-#include <iostream>
-#include <fstream>
-#include "include/cpp_httplib/httplib.h"
-#include <string>
-using namespace httplib;
-//using namespace fstream;
-//using namespace string;
+1. Скриншот "корзины", "молчать":
 
-// В этой функции формируем ответ сервера на запрос
+![](./kartinki/0.jpg)
+
+Рисунок 1. Демонстрация команд.
+
+2, 3. Скриншот "корзины", "молчать":
+
+![](./kartinki/1.jpg)
+
+Рисунок 2. Демонстрация команд.
+
+4. Скриншот браузерного виджета вебхуков:
+
+![](./kartinki/2.jpg)
+
+Рисунок 3. HTML-виджет вебхуков.
+
+5. Ссылка на таблицу результатов запросов:
+
+[[Excel]](./excel)
+
+6. Полный исходный код сервера:
+```c++
 #include <iostream>
 #include <string>
 #include "include/cpp_httplib/httplib.h"
@@ -98,13 +109,14 @@ int main() {
 	}
 }
 */
+// В этой функции формируем ответ сервера на запрос
 
 void gen_get1response(const Request& req, Response& res){
-	system(u8"..\\ConsoleApplication11\\ConsoleApplication11\\whpedito.py");
+	system(u8"..\\ConsoleApplication11\\whpedito.py");
 	std::cout << "0\n";
-	std::string path1 = u8"..\\ConsoleApplication11\\ConsoleApplication11\\webhooksfinal.html";
-	std::string path2 = u8"webhooksfinal.html"; // ..\\ConsoleApplication11\\ConsoleApplication11
-	std::string pathjsonwork = u8"..\\ConsoleApplication11\\ConsoleApplication11\\config.txt"; //data:text/html,<form action=http://localhost:1234 method=post><input name=key></form>
+	std::string path1 = u8"..\\ConsoleApplication11\\webhooksfinal.html";
+	std::string path2 = u8"webhooksfinal.hml"; // ..\\ConsoleApplication11\\ConsoleApplication11
+	std::string pathjsonwork = u8"..\\ConsoleApplication11\\config.txt"; //data:text/html,<form action=http://localhost:1234 method=post><input name=key></form>
 	std::ifstream fin1;
 	std::cout << "1\n";
 	std::ifstream fin2;
@@ -119,51 +131,60 @@ void gen_get1response(const Request& req, Response& res){
 			std::string x;
 			x = req.body.c_str();
 			fout1 << x;
-			system(u8"..\\ConsoleApplication11\\ConsoleApplication11\\whpedito.py");
+			system(u8"..\\ConsoleApplication11\\whpedito.py");
+	}
+	if (!(fin1.is_open())) {
+		std::cout << "no connection\n";
 	}
 	else {
-		if (!(fin1.is_open())) {
-			std::cout << "no connection\n";
-		}
-		else {
-			while (fin1.get(ch)) {
-				htmlres1 += ch;
-			}
-		}
-		std::string htmlres2 = "";
-		if (!(fin2.is_open())) {
-			std::cout << "no connection\n";
-		}
-		else {
-			while (fin2.get(ch)) {
-				htmlres1 += ch;
-			}
-		}
-		if (htmlres1 != "") {
-			res.set_content(htmlres1, "text/html");
-		}
-		else {
-			res.set_content(htmlres2, "text/html");
+		while (fin1.get(ch)) {
+			htmlres1 += ch;
 		}
 	}
-	fin1.close();
-	fin2.close();
-	fout1.close();
+	std::string htmlres2 = "";
+	if (!(fin2.is_open())) {
+		std::cout << "no connection\n";
+	}
+	else {
+		while (fin2.get(ch)) {
+			htmlres1 += ch;
+		}
+	}
+	if (htmlres1 != "") {
+		res.set_content(htmlres1, "text/html");
+	}
+	else {
+		res.set_content(htmlres2, "text/html");
+	}
+fin1.close();
+fin2.close();
+fout1.close();
 }
 
 void gen_get2response(const Request& req, Response& res) {
 	// Выводим на экран тело запроса
 	std::cout << req.body.c_str();
 	// Здесь будет ответ, пока-что взят пример из документации
-	std::string str = u8"KU KU";
+	std::string str = u8R"({
+		"response": {
+		"text": "Здравствуйте! Это мы, хороводоведы.",
+			"tts" : "Здравствуйте! Это мы, хоров+одо в+еды.",
+			"end_session" : false
+		},
+		"session_state" : {
+			"value": 10
+			},
+			"version" : "1.0"
+	})";
 	// Отправляем ответ
 	res.set_content(str, "text/json; charset=UTF-8");
 }
 
 int main() {
 	Server svr;                            // Создаём сервер
-	svr.Get("/webhooks", gen_get2response);
-	svr.Post("/", gen_get1response);// Вызвать функцию gen_response на post запрос
+	svr.Get("/webhooks", gen_get1response);
+	svr.Post("/webhooks", gen_get1response);
+	svr.Post("/", gen_get2response);// Вызвать функцию gen_response на post запрос
 	std::cout << "Start server... OK\n"; // cout использовать нельзя
 	svr.listen("localhost", 1234);         // Запускаем сервер на localhost и порту 1234
 }
@@ -172,34 +193,45 @@ int main() {
 ```py
 #whpedito.py
 # -*- coding: utf-8 -*-
-from json import load, dump
+from json import load, dump, decoder
+import sys
 
 
 try:
-    with open("config.json", "r") as f:
+    with open("config.json", "r", encoding="utf-8") as f:
+        for i in f.readlines():
+            if i != '':
+                flag = True
+                break
+            else:
+                flag = False
+                break
         flag = True
         
-except FileNotFoundError:
+except FileNotFoundError or decoder.JSONDecodeError:
     flag = False
     
     
-if not flag:
-    with open("config.json", "w") as f, open("config.txt", "r") as ff:
-        shit_container = ff.readlines()
-        shit_dictionary = {"webhooks": shit_container for j in range(1)}
-        dump(shit_dictionary, f)    
+if flag:
+    with open("config.json", "w", encoding="utf-8") as f, open("config.txt", "r", encoding="utf-8") as ff:
+        container = ff.readlines()
+        Ndictionary = {"webhooks": container for j in range(1)}
+        dump(Ndictionary, f)
 else:
-    with open("config.json", "r") as fin:
-        shit_old = load(fin)
+    sys.exit() # Оно чудесным образом работает, хотя это вообще необъяснимо. отредачить попозже.
+    with open("config.json", "r", encoding="utf-8") as fin:
+        old = load(fin)
         
-    with open("config.json", "w") as f, open("config.txt", "r") as ff:
-        shit_container = ff.readlines()
-        if shit_container[0] not in shit_old["webhooks"]:
-            shit_old["webhooks"].append(shit_container[0])
-        dump(shit_old, f)
+    with open("config.json", "w", encoding="utf-8") as f, open("config.txt", "r", encoding="utf-8") as ff:
+        container = ff.readlines()
+        if set(container) not in set(old["webhooks"]):
+            for i in container:
+                if i not in old["webhooks"]:
+                    old["webhooks"].append(i)
+        dump(old, f)
 
 
-with open("config.json", "r") as f:
+with open("config.json", "r", encoding="utf-8") as f:
     whs = load(f)
  
     
@@ -223,8 +255,9 @@ with open("webhooksfinal.html", "w", encoding="utf-8") as f1, open("webhooks.txt
 
 if __name__ != "__main__":
     with open('log.txt', 'w') as f:
-        print("lol", file-f)
+        print("lol", file=f)
 ```
+7. Полный код Клиента:
 ```py
 #WebHookWork.py
 # -*- coding: utf-8 -*-
@@ -244,24 +277,9 @@ def index():
 if __name__ == "__main__":
     app.run()
 ```
-5. Полный код Клиента:
-```py
-...............
-```
-6. Скриншот клиентского приложения:
-
-![](./labakartinki/1.jpg)
-
-Рисунок 1. Графический интерфейс программы-клиента.
-
-7. Скриншот браузерного виджета:
-
-![](./labakartinki/2.jpg)
-
-Рисунок 2. HTML-виджет на local-hostе.
 
 Каталоги:
-[[Сервер]](./server(C++)) [[Клиент]](./client(Python))
+[[Сервер]](./server(C++)) [[Клиент]](./client(Python)) [[Excel]](./excel)
 ## Вывод
 Были выполнены поставленные задачи, а также формально достигнута цель данной работы - были получены представления о структуре post-запроса, изучены webhooks как метод взаимодействия web-приложений, однако экспериментальная часть лабораторной(программа) все еще требует некоторой доработки.
 
