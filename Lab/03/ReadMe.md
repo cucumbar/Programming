@@ -40,7 +40,7 @@
 
 Следующим шагом был разработан c++ сервер со вставками python.
 
-Файл [ConsoleApplication11.cpp](./server(C++)/ConsoleApplication11/ConsoleApplication11/ConsoleApplication11.cpp) содержит функцию входа *main*.
+Файл [ConsoleApplication1.cpp](./server(C++)/ConsoleApplication1/ConsoleApplication1/ConsoleApplication1.cpp) содержит функцию входа *main*.
 
 Проект имеет несколько существенных изъянов, однако их планируется исправить в ближайшие сроки.
 
