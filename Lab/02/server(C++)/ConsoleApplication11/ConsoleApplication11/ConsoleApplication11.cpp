@@ -45,7 +45,7 @@ void gen_get1response(const Request& req, Response& res){
 	std::cout << "1\n";
 	std::ifstream fin2;
 	std::cout << "2\n";
-	std::ofstream fout1(pathjsonwork);
+	std::ofstream fout1(pathjsonwork, std::ios::app);
 	std::cout << "3\n";
 	fin1.open(path1);
 	fin2.open(path2);
@@ -54,7 +54,7 @@ void gen_get1response(const Request& req, Response& res){
 	if (req.method == "POST" && fout1) {
 			std::string x;
 			x = req.body.c_str();
-			fout1 << x;
+			fout1 << x << '\n';
 			system(u8"..\\ConsoleApplication11\\whpedito.py");
 	}
 	if (!(fin1.is_open())) {

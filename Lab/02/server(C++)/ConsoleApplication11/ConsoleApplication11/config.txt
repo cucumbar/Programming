@@ -1,0 +1,6 @@
+
+del=
+set=1
+set=https%3A%2F%2Fwww.google.ru
+set=
+del=
