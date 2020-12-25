@@ -1,2 +1,4 @@
 
-del=bnn
+set=http%3A%2F%2F8e6c59b9b697.ngrok.io
+set=http%3A%2F%2F16ceb37bfeaf.ngrok.io
+set=http%3A%2F%2F16ceb37bfeaf.ngrok.io
