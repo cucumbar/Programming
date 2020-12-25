@@ -10,14 +10,19 @@ def precious_thing():
         global cringe
         cringe = str("".join(whs['webhooks'])).split('\n')
         for i in cringe:
-            if i != '\n' and i != '' and i != ' ':
+            if i[0:3] == "del":
+                f0 = open("config.txt", "w", encoding="utf-8")
+                f0.close()
+                cringe = []
+                break
+            elif i != '\n' and i != '' and i != ' ':
                 res = f"""<div class="form-row align-items-center">
                                 <div class="col">
                                   <input type="text" value="{i[4:]}" class="form-control mb-2" disabled>
                                 </div>
                                 
                                 <div class="col">
-                                  <button type="submit" name="del" value="{i[4:]}" class="btn btn-danger mb-2">Удалить</button>
+                                  <button type="submit" name="del" value="{i[4:]}" class="btn btn-danger mb-2">Удалить все</button>
                                 </div>
                               </div>"""
                 res += "\n{}\n"
