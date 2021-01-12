@@ -111,54 +111,34 @@ int main() {
 */
 // В этой функции формируем ответ сервера на запрос
 
-void gen_get1response(const Request& req, Response& res){
+void gen_get1response(const Request& req, Response& res) {
 	system(u8"..\\ConsoleApplication11\\whpedito.py");
 	std::cout << "0\n";
-	std::string path1 = u8"..\\ConsoleApplication11\\webhooksfinal.html";
-	std::string path2 = u8"webhooksfinal.hml"; // ..\\ConsoleApplication11\\ConsoleApplication11
+	std::string path1 = u8"..\\ConsoleApplication11\\webhooksfinal.html"; // ..\\ConsoleApplication11\\ConsoleApplication11
 	std::string pathjsonwork = u8"..\\ConsoleApplication11\\config.txt"; //data:text/html,<form action=http://localhost:1234 method=post><input name=key></form>
 	std::ifstream fin1;
-	std::cout << "1\n";
-	std::ifstream fin2;
-	std::cout << "2\n";
-	std::ofstream fout1(pathjsonwork);
+	std::ofstream fout1(pathjsonwork, std::ios::app);
 	std::cout << "3\n";
 	fin1.open(path1);
-	fin2.open(path2);
 	char ch;
 	std::string htmlres1 = "";
 	if (req.method == "POST" && fout1) {
-			std::string x;
-			x = req.body.c_str();
-			fout1 << x;
-			system(u8"..\\ConsoleApplication11\\whpedito.py");
+		std::string x;
+		x = req.body.c_str();
+		fout1 << x << '\n';
+		system(u8"..\\ConsoleApplication11\\whpedito.py");
 	}
 	if (!(fin1.is_open())) {
 		std::cout << "no connection\n";
 	}
 	else {
-		while (fin1.get(ch)) {
-			htmlres1 += ch;
-		}
-	}
-	std::string htmlres2 = "";
-	if (!(fin2.is_open())) {
-		std::cout << "no connection\n";
-	}
-	else {
-		while (fin2.get(ch)) {
-			htmlres1 += ch;
-		}
+		getline(fin1, htmlres1, '\0');
 	}
 	if (htmlres1 != "") {
 		res.set_content(htmlres1, "text/html");
 	}
-	else {
-		res.set_content(htmlres2, "text/html");
-	}
-fin1.close();
-fin2.close();
-fout1.close();
+	fin1.close();
+	fout1.close();
 }
 
 void gen_get2response(const Request& req, Response& res) {
@@ -192,11 +172,41 @@ int main() {
 ```
 ```py
 #whpedito.py
-# -*- coding: utf-8 -*-
 from json import load, dump, decoder
-import sys
 
 
+def precious_thing():
+    with open("config.json", "r", encoding="utf-8") as f:
+        whs = load(f)
+
+    with open("webhooksfinal.html", "w", encoding="utf-8") as f1, open("webhooks.txt", "r", encoding="utf-8") as f2:
+        template = "".join(f2.readlines())
+        global cringe
+        cringe = str("".join(whs['webhooks'])).split('\n')
+        for i in cringe:
+            if i[0:3] == "del":
+                f0 = open("config.txt", "w", encoding="utf-8")
+                f0.close()
+                cringe = []
+                break
+            elif i != '\n' and i != '' and i != ' ':
+                res = f"""<div class="form-row align-items-center">
+                                <div class="col">
+                                  <input type="text" value="{i[4:]}" class="form-control mb-2" disabled>
+                                </div>
+                                
+                                <div class="col">
+                                  <button type="submit" name="del" value="{i[4:]}" class="btn btn-danger mb-2">Удалить все</button>
+                                </div>
+                              </div>"""
+                res += "\n{}\n"
+                template = template.format(res)
+            
+        template = template.format("")
+        print(template, file=f1)
+        
+    with open("config.txt", "w", encoding="utf-8") as f:
+        print("\n".join(set(cringe)), file=f)
 try:
     with open("config.json", "r", encoding="utf-8") as f:
         for i in f.readlines():
@@ -218,40 +228,19 @@ if flag:
         Ndictionary = {"webhooks": container for j in range(1)}
         dump(Ndictionary, f)
 else:
-    sys.exit() # Оно чудесным образом работает, хотя это вообще необъяснимо. отредачить попозже.
+    # sys.exit() # Оно чудесным образом работает, хотя это вообще необъяснимо. отредачить попозже.
     with open("config.json", "r", encoding="utf-8") as fin:
         old = load(fin)
         
     with open("config.json", "w", encoding="utf-8") as f, open("config.txt", "r", encoding="utf-8") as ff:
-        container = ff.readlines()
+        container = str("".join(ff.readlines())).split('\n')
         if set(container) not in set(old["webhooks"]):
             for i in container:
                 if i not in old["webhooks"]:
                     old["webhooks"].append(i)
         dump(old, f)
 
-
-with open("config.json", "r", encoding="utf-8") as f:
-    whs = load(f)
- 
-    
-with open("webhooksfinal.html", "w", encoding="utf-8") as f1, open("webhooks.txt", "r", encoding="utf-8") as f2:
-    template = "".join(f2.readlines())
-    for i in whs['webhooks']:
-        res = f"""<div class="form-row align-items-center">
-                        <div class="col">
-                          <input type="text" value="{i}" class="form-control mb-2" disabled>
-                        </div>
-                        
-                        <div class="col">
-                          <button type="submit" name="del" value="{i}" class="btn btn-danger mb-2">Удалить</button>
-                        </div>
-                      </div>"""
-        res += "\n{}\n"
-        template = template.format(res)
-        
-    template = template.format("")
-    print(template, file=f1)
+precious_thing()
 
 if __name__ != "__main__":
     with open('log.txt', 'w') as f:
@@ -259,27 +248,75 @@ if __name__ != "__main__":
 ```
 7. Полный код Клиента:
 ```py
-#WebHookWork.py
-# -*- coding: utf-8 -*-
-import json
-
+import json as j
+import openpyxl as oxl
+from datetime import datetime
 from flask import Flask, request
  
 app = Flask(__name__)
- 
+
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
+        
+        global s, r
+        s = request.get_json()
+        print(s)
+        r = j.load(s)
+        book = oxl.Workbook()
+        sheet = book.active()
+        sheet["A1"] = "N"
+        sheet["B1"] = "User ID"
+        sheet["C1"] = "Datetime"
+        sheet["D1"] = "Item"
+        sheet["E1"] = "Price"
+        
+        for i in range(len(r["check"])):
+    
+            sheet["A" + str(i + 2)] = i + 1
+            sheet["B" + str(i + 2)] = r["user_id"]
+            sheet["C" + str(i + 2)] = datetime.now()
+            sheet["D" + str(i + 2)] = r["check"][i]["item"]
+            sheet["E" + str(i + 2)] = r["check"][i]["price"]
+            
+        book.save("data.xlsx")
+        book.close()
         return "Это POST запрос"
+    
     if request.method == 'GET':
-        return "Это GET запрос"
+        print(s)
+        return s
  
+    """
+    # -*- coding: utf-8 -*-
+import openpyxl as oxl
+from datetime import datetime
+
+book = oxl.Workbook()
+sheet = book.active
+sheet["A1"] = "N"
+sheet["B1"] = "User ID"
+sheet["C1"] = "Datetime"
+sheet["D1"] = "Item"
+sheet["E1"] = "Price"
+r = {"user_id": "9359F683B13A18A1", "check":[{"item": "SANDALIANS","price": 250},{"item": "SOCKIANS","price": 100}]}
+for i in range(len(r["check"])):
+    
+    sheet["A" + str(i + 2)] = i + 1
+    sheet["B" + str(i + 2)] = r["user_id"]
+    sheet["C" + str(i + 2)] = datetime.now()
+    sheet["D" + str(i + 2)] = r["check"][i]["item"]
+    sheet["E" + str(i + 2)] = r["check"][i]["price"]
+    
+book.save("data.xlsx")
+book.close()
+    """
 if __name__ == "__main__":
     app.run()
 ```
 
 Каталоги:
-[[Сервер]](./server(C++)) [[Клиент]](./client(Python)) [[Excel]](./excel)
+[[Сервер]](./server(C++)) [[Клиент]](./client(Python)) [[Excel]](./Excel)
 ## Вывод
 Были выполнены поставленные задачи, а также формально достигнута цель данной работы - были получены представления о структуре post-запроса, изучены webhooks как метод взаимодействия web-приложений, однако экспериментальная часть лабораторной(программа) все еще требует некоторой доработки.
 

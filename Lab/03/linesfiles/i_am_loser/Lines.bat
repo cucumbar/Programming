@@ -1,0 +1,1 @@
+pyinstaller Lines.spec
