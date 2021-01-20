@@ -254,55 +254,56 @@ def computerMOVE():
     showSCORES()
     xy.pop()
         
+def CHECKpossib():
+    global located
     
-def MOVEpossibilty(i1, j1, i2, j2):
+    for i in located:
+        if not i[2]:
+            return False
     
-    # global located
+    return True
+
+def MOVEpossibilty(i1, j1, node_was, i2, j2):
     
-    # located.append((i1, j1, True)) # XXX
+    global located
     
-    # node = located.pop()
+    located.append([i1, j1, node_was]) # кривой поиск в шширину который работает с перебоями.
     
-    # if (node[0], node[1]) == (i2, j2):
-    #     return True
+    node = located[len(located) - 1]
     
-    # else:
-    #     for i in (-1, 0, 1):
-    #         for j in (-1, 0, 1):
+    if (node[0], node[1]) == (i2, j2):
+        return True
+    
+    else:
+        for i in (-1, 0, 1):
+            for j in (-1, 0, 1):
                 
-    #             if i != 0 or j != 0:
-    #                 try:
-                        
-    #                 if not actual_game[i1+i][j1+j].has_ball
-    # for i in (-1, 0, 1):
-    #     for j in (-1, 0, 1):
-            
-    #         if i != 0 or j != 0:
-    #             try:
-    #                 if not actual_game[i1+i][j1+j].has_ball and (i1+i, j1+j) not in located:
-    #                     if (i1+i, j1+j) == (i2, j2):
-    #                         return True
-    #                     elif (i1+i, j1+j, False) not in located:
-    #                         located.append((i1+i, j1+j, False))
-                        
-                        
-    #             except IndexError:
-    #                 continue
+                if i != 0 or j != 0:
+                    try:
+                        if not node[2]:
+                            if not actual_game[i1+i][j1+j].has_ball:
+                                if [i1+i, j1+j, False] not in located:
+                                    located.append([i1+i, j1+j, False])
+                                
+                    except IndexError:
+                        continue
                 
-    # for each in located:
-    #     if not each[2]:
-    #         MOVEpossibilty(each[0], each[1], i2, j2)
+        node[2] = True
         
-    # if (i2, j2) in located:
-    #     located.clear()
+    if not CHECKpossib():
+        for k in located:
+            if not k[2]:
+                r = k.copy()
+                located.remove(k)
+                return MOVEpossibilty(r[0], r[1], r[2], i2, j2)
+                
+    else:
+        return False
+    
+    # if actual_game[i1][j1].has_ball:
     #     return True
     # else:
     #     return False
-    
-    if actual_game[i1][j1].has_ball:
-        return True
-    else:
-        return False
     
     
 
@@ -312,7 +313,7 @@ def playerMOVE(event):
     global clicked_first_cell
     global BALLSonAG
     global gameEND
-    # global result
+    global located
     
     GAMEcheck()
     
@@ -324,8 +325,9 @@ def playerMOVE(event):
         
     elif clicked_first_cell:
         
-        if MOVEpossibilty(clicked_first_cell[0], clicked_first_cell[1], this_cell.row, this_cell.col):
+        if MOVEpossibilty(clicked_first_cell[0], clicked_first_cell[1], False, this_cell.row, this_cell.col):
             # r = copy.copy(result)
+            located.clear()
             this_cell.has_ball = True
             this_cell.coltype = copy.copy(actual_game[clicked_first_cell[0]][clicked_first_cell[1]].coltype)
             BALLSonAG[this_cell.coltype].remove(clicked_first_cell)
