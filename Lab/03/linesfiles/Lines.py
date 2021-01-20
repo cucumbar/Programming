@@ -182,7 +182,7 @@ def GAMEcheck():
                     count = [lookSEQ(i, r) for i, r in [(0, 0), (0, 1), (1, 0), (1, 1), (-1, 1), (1, -1)]]
                     
                     for i, r in count:
-                        if max(abs(i), abs(r)) >= 5:
+                        if max(abs(i), abs(r)) == 5:
                             result += max(abs(i), abs(r)) * 2
                             
                             for u in range(max(abs(i), abs(r))):
@@ -261,9 +261,19 @@ def MOVEpossibilty(i1, j1, i2, j2):
     
     # located.append((i1, j1, True)) # XXX
     
-    # if (i1, j1) == (i2, j2):
+    # node = located.pop()
+    
+    # if (node[0], node[1]) == (i2, j2):
     #     return True
     
+    # else:
+    #     for i in (-1, 0, 1):
+    #         for j in (-1, 0, 1):
+                
+    #             if i != 0 or j != 0:
+    #                 try:
+                        
+    #                 if not actual_game[i1+i][j1+j].has_ball
     # for i in (-1, 0, 1):
     #     for j in (-1, 0, 1):
             
@@ -272,7 +282,7 @@ def MOVEpossibilty(i1, j1, i2, j2):
     #                 if not actual_game[i1+i][j1+j].has_ball and (i1+i, j1+j) not in located:
     #                     if (i1+i, j1+j) == (i2, j2):
     #                         return True
-    #                     else:
+    #                     elif (i1+i, j1+j, False) not in located:
     #                         located.append((i1+i, j1+j, False))
                         
                         
