@@ -9,9 +9,10 @@ int main() {
 	int y, x;
 	std::string s;
 	bool flag{false};
+	setlocale(LC_ALL, "Russian");
     std::cout << "Здравствуйте. Угадайте число от 1 до 100\n";
     x = rand() % (101);
-    for (int i = 1; i < 5; i++){
+    for (int i = 0; i < 5; i++){
         std::cin >> y;
         if (i <= 4){
             if (y < x){

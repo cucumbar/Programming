@@ -2,21 +2,74 @@
 //
 
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iterator>
 
-int main()
-{
-	int num, pow;
-	double result{ 1 };
-	std::cin >> num >> pow;
-	for (int i = 0; i < abs(pow); i++) {
-		result *= num;
+const std::string labyr[] = {
+	"####B######################",
+	"# #       #   #      #    #",
+	"# # # ###### #### ####### #",
+	"# # # #       #   #       #",
+	"#   # # ######### # ##### #",
+	"# # # #   #       #     # #",
+	"### ### ### ############# #",
+	"# #   #     # #           #",
+	"# # #   ####### ###########",
+	"# # # #       # #         C",
+	"# # ##### ### # # ####### #",
+	"# # #     ### # #       # #",
+	"#   ##### ### # ######### #",
+	"######### ### #           #",
+	"# ####### ### #############",
+	"A           #   ###   #   #",
+	"# ############# ### # # # #",
+	"# ###       # # ### # # # #",
+	"# ######### # # ### # # # F",
+	"#       ### # #     # # # #",
+	"# ######### # ##### # # # #",
+	"# #######   #       #   # #",
+	"# ####### ######### #######",
+	"#         #########       #",
+	"#######E############D######"
+};
+void BFS(std::vector<std::pair<int, int>>& located, std::vector<char>& outs, int x_0, int y_0) {
+	if (x_0 < 0 || x_0 >= labyr[0].length() || y_0 < 0 || y_0 >= std::size(labyr) || labyr[y_0][x_0] == '#') {
+		return;
 	}
-	if (pow < 0) {
-		result = 1 / result;
+	if (std::find(located.begin(), located.end(), std::make_pair(x_0, y_0)) != located.end()) {
+		return;
 	}
-	std::cout << result;
+	located.push_back(std::make_pair(x_0, y_0));
+	if (labyr[y_0][x_0] != ' ' && std::find(outs.begin(), outs.end(), labyr[y_0][x_0]) == outs.end()) {
+		outs.push_back(labyr[y_0][x_0]);
+	}
+	BFS(located, outs, x_0 + 1, y_0);
+	BFS(located, outs, x_0 - 1, y_0);
+	BFS(located, outs, x_0, y_0 + 1);
+	BFS(located, outs, x_0, y_0 - 1);
 }
+int main() {
+	std::vector<std::pair<int, int>> located;
+	std::vector<char> outs;
+	int x_0, y_0;
+	std::cin >> x_0 >> y_0;
+	if (x_0 < 0 || x_0 >= labyr[0].length() || y_0 < 0 || y_0 >= std::size(labyr) || labyr[y_0][x_0] == '#') {
+		std::cout << "Neverniye coordinati";
+	}
+	else {
+		BFS(located, outs, x_0, y_0);
+		if (outs.size() != 0) {
+			for (char u : outs) {
+				std::cout << u << " ";
+			}
+		}
+		else {
+			std::cout << "Vyhodov net";
+		}   std::cout << std::endl;
+	}
 
+}
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
 

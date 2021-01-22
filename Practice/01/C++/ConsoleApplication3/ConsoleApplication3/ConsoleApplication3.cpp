@@ -1,6 +1,6 @@
 #include <iostream>
-using namespace std;
 int main() {
-	cout << "Результат выражения 2+2*2 = "<<2+2*2;
+	setlocale(LC_ALL, "Russian");
+	std::cout << "Результат выражения 2+2*2 = "<<2+2*2;
 	return 0;
 }
