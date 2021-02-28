@@ -8,6 +8,6 @@ try:
         a, b, c = list(map(int, input().split())), list(map(int, input().split())), list(map(int, input().split()))
         print("S = " + str(abs(sum([(b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1])]) / 2)))
     elif int(x) >= 3 and int(x) <= 1000:
-	print('Ошибочный ввод')
+        print('Ошибочный ввод')
 except ValueError:
     print('Нельзя так писать.')
