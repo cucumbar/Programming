@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConsoleApplication11.cpp">
+    <ClCompile Include="ConsoleApplication20.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
