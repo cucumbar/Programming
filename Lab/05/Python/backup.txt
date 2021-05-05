@@ -1,0 +1,324 @@
+# This Python file uses the following encoding: utf-8
+import sys
+from bitstring import BitArray
+
+#class first_try(QMainWindow):
+#    def __init__(self):
+#        super(first_try, self).__init__()
+#        self.load_ui()
+
+#    def load_ui(self):
+#        loader = QUiLoader()
+#        path = os.path.join(os.path.dirname(__file__), "form.ui")
+#        ui_file = QFile(path)
+#        ui_file.open(QFile.ReadOnly)
+#        loader.load(ui_file, self)
+#        ui_file.close()
+
+# -*- coding: utf-8 -*-
+
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
+
+class Ui_first_try(object):
+    def __init__(self):
+        self.da_file = "" #just savin DaImage
+
+    def encrypt(self): #self.string = shi_tString; self.pixmap_bytes = kartinka chto vozvrashaem
+        #"11100010 10011101 10100100" + f"{size}" - впереди каждого
+        def roll_pixel(pixel, msg_part):
+            msg_part = int(msg_part)
+            print([pixel.red(), pixel.green(), pixel.blue()])
+
+            if msg_part // 100:
+                if not pixel.red() % 2:
+                    pixel.setRed(pixel.red() + 1)
+
+            else:
+                if pixel.red() % 2:
+                    pixel.setRed(pixel.red() - 1)
+
+            if (msg_part % 100) // 10:
+                if not pixel.green() % 2:
+                    pixel.setGreen(pixel.green() + 1)
+
+            else:
+                if pixel.green() % 2:
+                    pixel.setGreen(pixel.green() - 1)
+
+            if msg_part % 10:
+                if not pixel.blue() % 2:
+                    pixel.setBlue(pixel.blue() + 1)
+
+            else:
+                if pixel.blue() % 2:
+                    pixel.setBlue(pixel.blue() - 1)
+
+            print([pixel.red(), pixel.green(), pixel.blue()])
+            return qRgb(pixel.red(), pixel.green(), pixel.blue())
+
+#        shi_tString = u"абрам линькин)" ################################затычка
+
+        if (((self.da_file.size().width() * self.da_file.size().height()) * 3) + 56) < len(self.string):
+            self.label_3.setText("Файл слишком мал для записи.")
+            self.label_3.setGeometry(QRect(400, 620, 150, 50))
+            return 0
+
+        else:
+#            while d
+
+#            res_pix = roll_pixel(self.da_file.pixelColor(0, 0), "101")
+            print(self.string.encode('utf-8'))
+            t = self.string.encode('utf-8').hex()
+            print(t)
+
+            temp_s = BitArray(hex=self.string.encode('utf-8').hex()).bin
+            temp_s_l = str(bin(len(temp_s)))[2:]
+
+            print(temp_s)
+            print(temp_s_l)
+
+            self.string = "111000101001110110100100" + "".join(['0' for i in range(32-len(temp_s_l))]) + temp_s_l + temp_s
+
+            for i in range(self.da_file.size().height()):
+                for j in range(self.da_file.size().width()):
+                    temp_color = self.da_file.pixelColor(i, j)
+
+                    try:
+                        roll_pixel(temp_color, '101')
+                        if len(self.string) < 3:
+                            res_pix = roll_pixel(temp_color, self.string+'0')
+                            self.da_file.setPixel(i, j, res_pix)
+
+                        else:
+                            res_pix = roll_pixel(temp_color, self.string[:len(self.string)-4])
+                            self.da_file.setPixel(i, j, res_pix)
+                            self.string = self.string[2:]
+
+                    except IndexError:
+                        break
+
+            self.string.encode("utf-8")
+            sTemp = QByteArray(bytes(self.string, 'utf-8'))
+            self.label_3.setText("LOL")
+            self.label_3.setGeometry(QRect(400, 620, 40, 50))
+            return 1 # qimage
+
+
+    def decrypt(self):
+        self.da_file
+
+
+    def openImage(self): #########################################################################################
+        fileName, _ = QFileDialog.getOpenFileName(None, "Открыть изображение", "./", "Изображения(*.png)")
+
+        if fileName:
+            self.da_file = QImage(fileName)
+            self.da_file.convertTo(QImage.Format_ARGB32)
+
+            self.label_3.setText("Файл загружен успешно.")
+            self.label_3.setGeometry(QRect(365, 620, 400, 50))
+
+        else:
+            self.label_3.setText("Файл не загружен.")
+            self.label_3.setGeometry(QRect(400, 620, 400, 50))
+
+
+    def saveImage(self): #encrypt and save
+        self.string = self.plainTextEdit.toPlainText()
+
+        res = self.encrypt()
+
+        if not res:
+            self.label_3.setText("Файл слишком мал.")
+            self.label_3.setGeometry(QRect(400, 620, 400, 50))
+            return 1
+
+        fileName, _ = QFileDialog.getSaveFileName(None, "Сохранить изображение", "./", "Изображения(*.png)")
+
+        if fileName:
+            with open(fileName, 'wb') as f:
+                temp = QPixmap(self.da_file)
+
+                ba = QByteArray()
+                buff = QBuffer(ba)
+                buff.open(QIODevice.WriteOnly)
+                temp.save(buff, "PNG")
+                self.pixmap_bytes = ba.data()
+
+                f.write(self.pixmap_bytes)
+
+            print(fileName)
+            self.label_3.setText("Файл зашифрован и сохранен успешно.")
+            self.label_3.setGeometry(QRect(365, 620, 600, 50))
+
+        else:
+            self.label_3.setText("Файл не сохранен.")
+            self.label_3.setGeometry(QRect(365, 620, 400, 50))
+
+    def setupUi(self, first_try):
+        if not first_try.objectName():
+            first_try.setObjectName(u"first_try")
+        first_try.resize(1030, 680)
+        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(first_try.sizePolicy().hasHeightForWidth())
+        first_try.setSizePolicy(sizePolicy)
+        first_try.setMinimumSize(QSize(1030, 680))
+        first_try.setMaximumSize(QSize(1030, 680))
+        first_try.setStyleSheet(u"background-color:rgb(60, 197, 255)")
+        self.centralwidget = QWidget(first_try)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.pushButton = QPushButton(self.centralwidget)
+        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setGeometry(QRect(40, 550, 145, 65))
+        font = QFont()
+        font.setFamily(u"Roboto")
+        font.setPointSize(11)
+        self.pushButton.setFont(font)
+        self.pushButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.pushButton.setStyleSheet(u"background-color: blue;\n"
+"color: white;\n"
+"border-radius: 15px;\n"
+"\n"
+"font-family: Roboto;\n"
+"\n"
+"QPushButton#pushButton:hover{\n"
+"background-color: black;\n"
+"}\n"
+"")
+        self.plainTextEdit = QPlainTextEdit(self.centralwidget)
+        self.plainTextEdit.setObjectName(u"plainTextEdit")
+        self.plainTextEdit.setGeometry(QRect(40, 230, 441, 291))
+        self.plainTextEdit.viewport().setProperty("cursor", QCursor(Qt.IBeamCursor))
+        self.plainTextEdit.setStyleSheet(u"font-size: 18px;\n"
+"background-color:rgb(193, 244, 255)\n"
+"\n"
+"")
+        self.pushButton_2 = QPushButton(self.centralwidget)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.pushButton_2.setGeometry(QRect(40, 180, 161, 31))
+        font1 = QFont()
+        font1.setPointSize(11)
+        self.pushButton_2.setFont(font1)
+        self.pushButton_2.setCursor(QCursor(Qt.PointingHandCursor))
+        self.pushButton_2.setStyleSheet(u"background-color: blue;\n"
+"color: white;\n"
+"border-radius: 15px;\n"
+"alternate-background-color: rgb(170, 85, 255);")
+        self.label = QLabel(self.centralwidget)
+        self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(70, 30, 411, 81))
+        font2 = QFont()
+        font2.setFamily(u"Verdana")
+        font2.setPointSize(18)
+        font2.setBold(True)
+        font2.setItalic(True)
+        font2.setUnderline(False)
+        font2.setWeight(75)
+        self.label.setFont(font2)
+        self.label.setCursor(QCursor(Qt.ArrowCursor))
+        self.label.setAutoFillBackground(False)
+        self.label.setStyleSheet(u"border-color: rgb(255, 0, 4);")
+        self.label_2 = QLabel(self.centralwidget)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setGeometry(QRect(570, 30, 421, 81))
+        self.label_2.setFont(font2)
+        self.label_2.setCursor(QCursor(Qt.ArrowCursor))
+        self.label_2.setAutoFillBackground(False)
+        self.label_2.setStyleSheet(u"border-color: rgb(255, 0, 4);")
+
+        font3 = QFont()
+        font3.setFamily(u"Verdana")
+        font3.setPointSize(13)
+        font3.setBold(True)
+        font3.setItalic(False)
+        font3.setUnderline(False)
+        font3.setWeight(75)
+        self.label_3 = QLabel(self.centralwidget)
+        self.label_3.setObjectName(u"label")
+        self.label_3.setGeometry(QRect(400, 620, 400, 50))
+        self.label_3.setFont(font3)
+        self.label_3.setCursor(QCursor(Qt.ArrowCursor))
+        self.label_3.setAutoFillBackground(False)
+
+        self.plainTextEdit_2 = QPlainTextEdit(self.centralwidget)
+        self.plainTextEdit_2.setObjectName(u"plainTextEdit_2")
+        self.plainTextEdit_2.setGeometry(QRect(550, 230, 441, 291))
+        self.plainTextEdit_2.viewport().setProperty("cursor", QCursor(Qt.IBeamCursor))
+        self.plainTextEdit_2.setStyleSheet(u"font-size: 18px;\n"
+"background-color:rgb(193, 244, 255)\n"
+"\n"
+"")
+        self.plainTextEdit_2.setReadOnly(True)
+        self.pushButton_3 = QPushButton(self.centralwidget)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.pushButton_3.setGeometry(QRect(550, 550, 141, 41))
+        self.pushButton_3.setFont(font)
+        self.pushButton_3.setCursor(QCursor(Qt.PointingHandCursor))
+        self.pushButton_3.setStyleSheet(u"background-color: blue;\n"
+"color: white;\n"
+"border-radius: 15px;\n"
+"\n"
+"font-family: Roboto;\n"
+"\n"
+"")
+        self.pushButton_4 = QPushButton(self.centralwidget)
+        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.pushButton_4.setGeometry(QRect(550, 180, 161, 31))
+        self.pushButton_4.setFont(font1)
+        self.pushButton_4.setCursor(QCursor(Qt.PointingHandCursor))
+        self.pushButton_4.setStyleSheet(u"background-color: blue;\n"
+"color: white;\n"
+"border-radius: 15px;")
+        first_try.setCentralWidget(self.centralwidget)
+        self.menubar = QMenuBar(first_try)
+        self.menubar.setObjectName(u"menubar")
+        self.menubar.setGeometry(QRect(0, 0, 1030, 26))
+        first_try.setMenuBar(self.menubar)
+        self.statusbar = QStatusBar(first_try)
+        self.statusbar.setObjectName(u"statusbar")
+        first_try.setStatusBar(self.statusbar)
+#        self.get_files_enc = OPENER()
+#        self.get_files_dec = OPENER()
+
+        self.retranslateUi(first_try)
+        self.pushButton_2.clicked.connect(self.openImage) ##@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        self.pushButton_4.clicked.connect(self.openImage) ##@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        self.pushButton.clicked.connect(self.saveImage) ##@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+        QMetaObject.connectSlotsByName(first_try)
+    # setupUi
+
+    def retranslateUi(self, first_try):
+            first_try.setWindowTitle(QCoreApplication.translate("first_try", u"first_try", None))
+            self.pushButton.setText(QCoreApplication.translate("first_try", u"\u0417\u0430\u0448\u0438\u0444\u0440\u043e\u0432\u0430\u0442\u044c\n"
+    "\u0438 \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", None))
+    #if QT_CONFIG(tooltip)
+            self.plainTextEdit.setToolTip(QCoreApplication.translate("first_try", u"<html><head/><body><p>\u041d\u0435 \u0445\u043e\u0442\u0438\u0442\u0435 - \u043d\u0435 \u0432\u0432\u043e\u0434\u0438\u0442\u0435</p></body></html>", None))
+    #endif // QT_CONFIG(tooltip)
+            self.plainTextEdit.setPlainText("")
+            self.plainTextEdit.setPlaceholderText(QCoreApplication.translate("first_try", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0442\u0435\u043a\u0441\u0442...", None))
+            self.pushButton_2.setText(QCoreApplication.translate("first_try", u"\u0412\u044b\u0431\u0440\u0430\u0442\u044c \u0444\u0430\u0439\u043b...", None))
+            self.label.setText(QCoreApplication.translate("first_try", u"\u0417\u0430\u043a\u043e\u0434\u0438\u0440\u0443\u0439\u0442\u0435 \u043f\u043e\u0441\u043b\u0430\u043d\u0438\u0435\n"
+    "         \u0432 \u043a\u0430\u0440\u0442\u0438\u043d\u043a\u0443!!!", None))
+            self.label_2.setText(QCoreApplication.translate("first_try", u"\u0420\u0430\u0441\u043a\u043e\u0434\u0438\u0440\u0443\u0439\u0442\u0435 \u043f\u043e\u0441\u043b\u0430\u043d\u0438\u0435\n"
+    "         \u0438\u0437 \u043a\u0430\u0440\u0442\u0438\u043d\u043a\u0438!!!", None))
+    #if QT_CONFIG(tooltip)
+            self.plainTextEdit_2.setToolTip(QCoreApplication.translate("first_try", u"<html><head/><body><p>\u041d\u0435 \u0445\u043e\u0442\u0438\u0442\u0435 - \u043d\u0435 \u043a\u043e\u043f\u0438\u0440\u0443\u0439\u0442\u0435</p></body></html>", None))
+    #endif // QT_CONFIG(tooltip)
+            self.plainTextEdit_2.setPlainText("")
+            self.plainTextEdit_2.setPlaceholderText(QCoreApplication.translate("first_try", u"\u0417\u0434\u0435\u0441\u044c \u0431\u0443\u0434\u0435\u0442 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442...", None))
+            self.pushButton_3.setText(QCoreApplication.translate("first_try", u"\u0420\u0430\u0441\u0448\u0438\u0444\u0440\u043e\u0432\u0430\u0442\u044c", None))
+            self.pushButton_4.setText(QCoreApplication.translate("first_try", u"\u0412\u044b\u0431\u0440\u0430\u0442\u044c \u0444\u0430\u0439\u043b...", None))
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    Form = QMainWindow()
+    ui = Ui_first_try()
+    ui.setupUi(Form)
+    Form.show()
+    sys.exit(app.exec_())
