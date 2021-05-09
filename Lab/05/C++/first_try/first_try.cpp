@@ -113,7 +113,7 @@ void first_try::decrypt(){
             if (counter == 24){
                 if (test != "111000101001110110100100"){
                     ui->label_3->setText("Сообщения в картинке нет");
-                    ui->label_3->setGeometry(QRect(400, 620, 400, 50));
+                    ui->label_3->setGeometry(QRect(400, 620, 400, 70));
                     return;
                 }
             }
@@ -155,27 +155,27 @@ void first_try::decrypt(){
 
     ui->plainTextEdit_2->setPlainText(RESULTED_RESULT);
     ui->label_3->setText(QString("Присутствует сообщение длиной %1 байт").arg(len_control/8));
+    ui->label_3->setGeometry(QRect(200, 620, 700, 50));
 }
 
 void first_try::open_image(){
-    auto fileContentReady = [this](const QString &fileName, const QByteArray &fileContent) {
-        if (fileName.isEmpty()) {
-            std::exit(1234);
-        } else {
-            this->da_file.load(fileContent);
-    };
+    QString fileName = QFileDialog::getOpenFileName(this, "Открыть изображение", "./", "Изображения (*.png)");
 
+    if (fileName.isEmpty()) {
+        std::exit(1234);
+    }
 
-    QString fileName = QFileDialog::getOpenFileName(
-                this,
-                "Открыть изображение",
-                "C://",
-                "Изображения (*.png)");
+    else {
+        this->da_file.load(fileName);
+    }
 
     this->da_file.convertTo(QImage::Format_ARGB32);
-    ui->plainTextEdit_2->setPlainText("Izobrajenie uspeshno otkrito");
-};
 
+    ui->label_3->setText("Izobrajenie uspeshno otkrito");
+    ui->label_3->setGeometry(QRect(300, 620, 600, 50));
+}
+
+void first_try::save_image(){};
 
 /*
 # This Python file uses the following encoding: utf-8
@@ -602,4 +602,4 @@ if __name__ == '__main__':
 
 */
 
-}
+
