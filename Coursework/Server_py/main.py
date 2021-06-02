@@ -61,7 +61,8 @@ def index():
     resp.headers['Access-Control-Allow-Origin'] = '*'
     resp.headers['Content-Type'] = 'applicaion/json;charset=utf-8'
 
-    global_buff += [res.json()["replies"][1], res.json()["replies"][2]]
+    temp = res.json()["replies"][1:]
+    global_buff += temp
 
     return resp
 
