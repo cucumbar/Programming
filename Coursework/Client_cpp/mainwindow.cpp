@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+//    QIcon iconka;
+//    iconka.addFile("icon.ico");
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(get_gen_msg()));
     connect(ui->textEdit, SIGNAL(textChanged()), this, SLOT(count_symb()));
     connect(ui->textEdit, SIGNAL(textChanged()), this, SLOT(count_word()));
@@ -16,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(get_gen_image()));
     connect(ui->pushButton_6, SIGNAL(clicked()), this, SLOT(clear_text_2()));
     connect(ui->pushButton_5, SIGNAL(clicked()), this, SLOT(save_img()));
+    this->setWindowTitle("Text King v1.0.0a");
+//    this->setWindowIcon(iconka);
 }
 
 MainWindow::~MainWindow()
@@ -26,7 +30,6 @@ MainWindow::~MainWindow()
 void MainWindow::onfinish_post_text(QNetworkReply *reply){
     get_res = reply->readAll();
     ui->label_4->setText("");
-    //user_text_fromrep = QString(get_res);
 
     json_f_post = QJsonDocument::fromJson(get_res);
 
@@ -158,9 +161,6 @@ void MainWindow::onfinish_get_text(QNetworkReply* reply){
     }
     //exit(-1234);
 
-//    user_text_fromrep_temp = user_text_fromrep_temp.left(user_text_fromrep_temp.size() - 1);
-//    user_text_fromrep_temp = user_text_fromrep_temp.right(user_text_fromrep_temp.size() - 1);
-
     user_text = previous_ut + user_text_fromrep_temp;
     ui->textEdit->setPlainText(user_text);
 
@@ -194,10 +194,11 @@ void MainWindow::onfinish_get_image(QNetworkReply* reply){
 
     if (get_res == ""){
         ui->label_4->setText("Повторите попытку");
+        return;
     }
 
     ui->label_4->setText("");
-    user_pic = QImage(get_res);
+    user_pic.loadFromData(get_res, "PNG");
 
     qDebug() << user_pic.size();
 
@@ -229,6 +230,11 @@ void MainWindow::get_gen_image(){
 
 void MainWindow::save_img(){
     QString fileName = QFileDialog::getSaveFileName(this, "Save Image", "", "Допустимые форматы (*.png)");
-    user_pic.save(fileName);
-    ui->label_4->setText("Ошибка. Попробуйте позже.");
+    if (fileName.size()){
+        user_pic.save(fileName);
+    }
+
+    else{
+        ui->label_4->setText("Страница не сохранена");
+    }
 }

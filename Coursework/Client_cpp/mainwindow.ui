@@ -6,15 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1111</width>
-    <height>654</height>
+    <width>1116</width>
+    <height>659</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(253, 255, 217);</string>
+   <string notr="true">background-color: rgb(248, 250, 212);</string>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>32</width>
+    <height>32</height>
+   </size>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="groupBox">
@@ -50,9 +56,12 @@
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Введите свой текст, нажмите кнопку&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
+     <property name="whatsThis">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Введите свое предложение, нажмите на кнопку, оно будет дополнено&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">font: 9pt &quot;Verdana&quot;;
-background-color: rgb(245, 255, 235);
+background-color: rgb(255, 255, 255);
 text-align: justify;
 </string>
      </property>
@@ -110,7 +119,7 @@ text-align: justify;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(245, 255, 235);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
       <property name="minimum">
        <number>10</number>
@@ -132,7 +141,7 @@ text-align: justify;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(245, 255, 235);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
       <property name="editable">
        <bool>true</bool>
@@ -193,7 +202,7 @@ text-align: justify;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(245, 255, 235);</string>
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
       <property name="editable">
        <bool>true</bool>
@@ -249,7 +258,7 @@ text-align: justify;
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton#pushButton {
-	background-color: rgb(212, 185, 139);
+	background-color: rgb(255, 148, 150);
 	border-style: outset;
     border-width: 2px;
     border-radius: 10px;
@@ -398,7 +407,7 @@ background-color: rgb(255, 223, 60);</string>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton#pushButton_3 {
-	background-color: rgb(212, 185, 139);
+	background-color: rgb(255, 148, 150);
     border-width: 2px;
     border-radius: 10px;
     border-color: beige;
@@ -436,7 +445,7 @@ QPushButton#pushButton_3:pressed{
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton#pushButton_4 {
-	background-color: rgb(212, 185, 139);
+	background-color: rgb(255, 148, 150);
     border-width: 2px;
     border-radius: 10px;
     border-color: beige;
@@ -505,7 +514,7 @@ QPushButton#pushButton_4:pressed{
      </property>
      <property name="styleSheet">
       <string notr="true">font: 9pt &quot;Verdana&quot;;
-background-color: rgb(245, 255, 235);
+background-color: rgb(255, 255, 255);
 text-align: justify;
 
 </string>
@@ -534,7 +543,7 @@ text-align: justify;
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton#pushButton_2 {
-	background-color: rgb(212, 185, 139);
+	background-color: rgb(255, 148, 150);
 	border-style: outset;
     border-width: 2px;
     border-radius: 10px;
@@ -557,14 +566,17 @@ QPushButton#pushButton_2:pressed{
     <widget class="QLabel" name="label_image">
      <property name="geometry">
       <rect>
-       <x>370</x>
-       <y>290</y>
-       <width>91</width>
-       <height>21</height>
+       <x>310</x>
+       <y>130</y>
+       <width>221</width>
+       <height>341</height>
       </rect>
      </property>
      <property name="text">
-      <string>предпросмотр</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;предпросмотр страницы с&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;рукописным текстом будет&lt;/p&gt;&lt;p align=&quot;center&quot;&gt; здесь&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QLabel" name="label_10">
@@ -625,13 +637,13 @@ QPushButton#pushButton_2:pressed{
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(245, 255, 235);</string>
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="minimum">
-      <number>1</number>
+      <number>8</number>
      </property>
      <property name="maximum">
-      <number>36</number>
+      <number>20</number>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_5">
@@ -648,7 +660,7 @@ QPushButton#pushButton_2:pressed{
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton#pushButton_5 {
-	background-color: rgb(212, 185, 139);
+	background-color: rgb(255, 148, 150);
 	border-style: outset;
     border-width: 2px;
     border-radius: 10px;
@@ -678,6 +690,9 @@ QPushButton#pushButton_5:pressed{
        <width>73</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <item>
       <property name="text">
@@ -722,10 +737,12 @@ QPushButton#pushButton_5:pressed{
        <height>28</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="styleSheet">
       <string notr="true">QPushButton#pushButton_6 {
-	background-color: rgb(212, 185, 139);
-	border-style: outset;
+	background-color: rgb(255, 148, 150);
     border-width: 2px;
     border-radius: 10px;
     border-color: beige;
@@ -766,7 +783,7 @@ text-decoration: underline;</string>
      <rect>
       <x>10</x>
       <y>610</y>
-      <width>381</width>
+      <width>531</width>
       <height>31</height>
      </rect>
     </property>

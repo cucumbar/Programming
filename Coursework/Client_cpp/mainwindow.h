@@ -6,11 +6,12 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QFileDialog>
-#include "QJsonDocument"
-#include "QJsonObject"
-#include "QByteArray"
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QByteArray>
 #include <string>
-#include "QImage"
+#include <QImage>
+#include <QIcon>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

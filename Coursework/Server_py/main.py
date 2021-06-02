@@ -3,7 +3,7 @@ import json
 import requests
 from flask import *
 from PIL import Image, ImageDraw, ImageFont
-import io
+
 
 class Buffer_msg():
     def __init__(self, *args):
@@ -17,7 +17,7 @@ class Buffer_msg():
         return tempo
 
     def release(self):
-        self.buff.clear() # временно это просто список
+        self.buff.clear()
         return
 
     def __iadd__(self, other):
@@ -47,7 +47,7 @@ def index():
         return ""
 
     print(1111111111111)
-    res = requests.post("https://pelevin.gpt.dobro.ai/generate/", json={"prompt" : req_res["user_text"], "length" : req_res["len"]}) #разобраться
+    res = requests.post("https://pelevin.gpt.dobro.ai/generate/", json={"prompt" : req_res["user_text"], "length" : req_res["len"]})
     print(2222222222222)
     #print(res.content)
     #print(res.text)
@@ -79,7 +79,7 @@ def answering():
 def receive_img():
     global new_imgs
     req_res = request.get_json()
-    print("123")
+    print(req_res)
 
     t_r = Image.open("Bg_best.png") #продолжить и закончить
 
@@ -87,24 +87,38 @@ def receive_img():
     text = req_res["to_handwrite"]
     fsize = req_res["f_size"]
 
+    print(text)
+
     text_f = text
+    text_f_list = []
+    i = 0
 
-    for i in range(len(text)):
-        if round(2.5 * i * fsize * 1.3333333333333333 / 4) > t_r.width:
-            text_f = text[0:i] + '\n' + text[i+1:len(text)]
+    while i < len(text_f):
+        if round(2.5 * i * fsize * 5 * 1.3333333333333333 / 4) > (t_r.width - 15): # рассчет длины рукописной строки.
+            text_f_list.append(text_f[0:i] )
+            #text_f_list.append()
 
-    font = ImageFont.truetype("Gogol.ttf", size=fsize)
-    idraw.text((10, 10), text_f, font=font)
+            text_f_list.append(text_f[i:len(text_f)])
+            text_f = text_f[i:len(text_f)]
+            i = 0
+
+        i += 1
+
+    font = ImageFont.truetype("Gogol.ttf", size=fsize * 5)
+    text_f_list = "\n".join(text_f_list)
+    print(text_f_list)
+
+    #for line in range(len(text_f_list)):
+    idraw.text((10, 20), text_f_list, (0, 0, 0), font=font)
 
     new_imgs += 1
-    filename = f"result{new_imgs}.png"
-    t_r.save(filename)
+    t_r.save(f"result{new_imgs}.png")
 
-    return send_file(filename, mimetype='image/png')
+    return send_file(f"result{new_imgs}.png", mimetype='image/png')
 
 #@server.route("/g", methods=["GET"])
 #def index_2():
-#    t_r = Image.open("bg_right.png") #продолжить и закончить
+#    t_r = Image.open("bg_right.png")
 #    t_l = Image.open("bg_left.png")
 
 #    idraw = ImageDraw.Draw(t_r)
@@ -122,6 +136,3 @@ def receive_img():
 
 if __name__ == "__main__":
     server.run(debug=True)
-
-"""Я бы успел реализовать намного более прекрасную программу, если бы не пришлось писать многочисленные непрофильные конспекты и контрольные.
-В любом случае, я буду дорабатывать до того момента, пока не смогу полноценно пользоваться сам."""
